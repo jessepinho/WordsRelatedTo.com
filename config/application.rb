@@ -19,5 +19,14 @@ module WordsRelatedTo
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+
+    # Use SASS
+    config.sass.preferred_syntax = :sass
+
+    # Use RSpec
+    config.generators do |g|
+      g.test_framework :rspec
+    end
+
   end
 end
