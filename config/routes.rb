@@ -1,4 +1,6 @@
 WordsRelatedTo::Application.routes.draw do
+  root 'words#index'
+
   resources :words
 
   # The priority is based upon order of creation: first created -> highest priority.
