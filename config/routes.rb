@@ -1,7 +1,11 @@
 WordsRelatedTo::Application.routes.draw do
   root 'words#index'
 
-  resources :words
+  resources :words do
+    member do
+      resources :related_words, only: [:create, :new]
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

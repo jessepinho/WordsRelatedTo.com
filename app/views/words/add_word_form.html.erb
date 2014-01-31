@@ -1,0 +1,11 @@
+<h1>Add a related word</h1>
+
+<%= form_for @word, url: add_word_word_path(@word) do |f| %>
+
+  <%= f.fields_for :related_words do |w| %>
+    <%= f.text_field :word %>
+  <% end %>
+
+  <%= f.submit %>
+
+<% end %>
