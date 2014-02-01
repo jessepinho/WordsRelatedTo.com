@@ -1,12 +1,16 @@
 %p#notice= notice
 
-%h1
-  Words related to
-  = @word
+%canvas#word
 
-%ul
-  - @word.related_words.each do |w|
-    %li= link_to w, word_path(w)
+  %h1
+    Words related to
+    %span.word{id: "word-#{@word.id}"}
+      = @word
+
+  %ul
+    - @word.related_words.each do |w|
+      %li{id: "word-#{w.id}"}
+        = link_to w, word_path(w)
 
 = link_to 'Edit', edit_word_path(@word)
 = link_to 'Back', words_path
