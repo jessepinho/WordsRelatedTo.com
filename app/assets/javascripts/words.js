@@ -2,9 +2,14 @@ var Renderer = function(canvas){
   var styles = {
     // ratio of text size to canvas width, per node level
     textSizeWidthRatio: {
-      level1: 0.02,
-      level2: 0.01
-    }
+      1: 0.02,
+      2: 0.01
+    },
+    // The ratio of the padding to the canvas size
+    paddingRatio: 0.1,
+    // Cache what styles we can here, so it's not being recalculated on redraw.
+    // (These will be set by respondCanvas() below.)
+    font: {}
   };
 
   var canvas = $(canvas).get(0);
@@ -26,10 +31,20 @@ var Renderer = function(canvas){
       // Thanks to http://ameijer.nl/2011/08/resizable-html5-canvas/ for the
       // responsive canvas
       function respondCanvas() {
+        // Set canvas size
         $(canvas).attr('width', $(canvas).parent()[0].offsetWidth);
         $(canvas).attr('height', $(canvas).parent()[0].offsetHeight);
         particleSystem.screenSize($(canvas).width(), $(canvas).height());
-        particleSystem.screenPadding($(canvas).height() * 0.1, $(canvas).width() * 0.1); // 10% padding
+        particleSystem.screenPadding($(canvas).height() * styles.paddingRatio, $(canvas).width() * styles.paddingRatio);
+
+        // Set font style caches here, instead of in redraw() (for performance).
+        for (i in styles.textSizeWidthRatio) {
+          styles.font[i] = {}
+          styles.font[i].size = $(canvas).width() * styles.textSizeWidthRatio[i];
+          styles.font[i].lineHeight = styles.font[i].size * 1.5;
+          console.log(styles);
+        }
+
         that.redraw();
       }
       respondCanvas();
@@ -69,8 +84,8 @@ var Renderer = function(canvas){
       particleSystem.eachNode(function(node, pt){
         // node: {mass:#, p:{x,y}, name:"", data:{}}
         // pt:   {x:#, y:#}  node position in screen coords
-        var fontSize = $(canvas).width() * styles.textSizeWidthRatio['level' + node.data.level];
-        var lineHeight = fontSize * 1.5;
+        var fontSize = styles.font[node.data.level].size;
+        var lineHeight = styles.font[node.data.level].lineHeight;
         ctx.font = fontSize + 'px/' + lineHeight + 'px Cardo, serif';
         ctx.textAlign = 'center';
         ctx.fillStyle = 'black';
