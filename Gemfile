@@ -11,7 +11,6 @@ gem 'haml-rails'
 # gem 'therubyracer', platforms: :ruby
 
 gem 'jquery-rails'
-gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 
 group :doc do
