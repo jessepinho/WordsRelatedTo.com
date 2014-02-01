@@ -1,9 +1,9 @@
 var Renderer = function(canvas){
   var styles = {
-    // ratio of text size to canvas width, per node level
-    textSizeWidthRatio: {
-      1: 0.02,
-      2: 0.01
+    // Ratio of text size to canvas size, per node level
+    textSizeCanvasRatio: {
+      1: 0.25,
+      2: 0.125
     },
     // The ratio of the padding to the canvas size
     paddingRatio: 0.1,
@@ -38,11 +38,10 @@ var Renderer = function(canvas){
         particleSystem.screenPadding($(canvas).height() * styles.paddingRatio, $(canvas).width() * styles.paddingRatio);
 
         // Set font style caches here, instead of in redraw() (for performance).
-        for (i in styles.textSizeWidthRatio) {
+        for (i in styles.textSizeCanvasRatio) {
           styles.font[i] = {}
-          styles.font[i].size = $(canvas).width() * styles.textSizeWidthRatio[i];
+          styles.font[i].size = $(canvas).height() * styles.textSizeCanvasRatio[i];
           styles.font[i].lineHeight = styles.font[i].size * 1.5;
-          console.log(styles);
         }
 
         that.redraw();
