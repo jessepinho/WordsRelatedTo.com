@@ -15,7 +15,16 @@ var Renderer = function(canvas){
       // inform the system of the screen dimensions so it can map coords for us.
       // if the canvas is ever resized, screenSize should be called again with
       // the new dimensions
-      particleSystem.screenSize(canvas.width, canvas.height)
+      // Thanks to http://ameijer.nl/2011/08/resizable-html5-canvas/ for the
+      // responsive canvas
+      function respondCanvas() {
+        $(canvas).attr('width', $(canvas).parent()[0].offsetWidth);
+        $(canvas).attr('height', $(canvas).parent()[0].offsetHeight);
+        particleSystem.screenSize($(canvas).width(), $(canvas).height());
+        that.redraw();
+      }
+      respondCanvas();
+      $(window).resize(respondCanvas);
 
       // set up some event handlers to allow for node-dragging
       that.initMouseHandling()
