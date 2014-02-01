@@ -1,7 +1,15 @@
 var Renderer = function(canvas){
-  var canvas = $(canvas).get(0)
+  var styles = {
+    // ratio of text size to canvas width, per node level
+    textSizeWidthRatio: {
+      level1: 0.02,
+      level2: 0.01
+    }
+  };
+
+  var canvas = $(canvas).get(0);
   var ctx = canvas.getContext("2d");
-  var particleSystem
+  var particleSystem;
 
   var that = {
     init:function(system){
@@ -21,6 +29,7 @@ var Renderer = function(canvas){
         $(canvas).attr('width', $(canvas).parent()[0].offsetWidth);
         $(canvas).attr('height', $(canvas).parent()[0].offsetHeight);
         particleSystem.screenSize($(canvas).width(), $(canvas).height());
+        particleSystem.screenPadding($(canvas).height() * 0.1, $(canvas).width() * 0.1); // 10% padding
         that.redraw();
       }
       respondCanvas();
@@ -60,7 +69,9 @@ var Renderer = function(canvas){
       particleSystem.eachNode(function(node, pt){
         // node: {mass:#, p:{x,y}, name:"", data:{}}
         // pt:   {x:#, y:#}  node position in screen coords
-        ctx.font = '30px/45px Cardo, serif';
+        var fontSize = $(canvas).width() * styles.textSizeWidthRatio['level' + node.data.level];
+        var lineHeight = fontSize * 1.5;
+        ctx.font = fontSize + 'px/' + lineHeight + 'px Cardo, serif';
         ctx.textAlign = 'center';
         ctx.fillStyle = 'black';
         ctx.fillText(node.data.text, pt.x, pt.y);
