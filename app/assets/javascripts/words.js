@@ -181,4 +181,6 @@ $(document).ready(function(){
     url: $('.word-graph h1 .word').data('word-url') + '/related_words/new'
   });
   sys.addEdge(wordId, 'add');
+
+  window.arborParticleSystem = sys;
 })
