@@ -99,7 +99,7 @@ var Renderer = function(canvas){
       // set up a handler object that will initially listen for mousedowns then
       // for moves and mouseups while dragging
       var handler = {
-        clicked:function(e){
+        mousedown:function(e){
           var pos = $(canvas).offset();
           _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
           dragged = particleSystem.nearest(_mouseP);
@@ -139,8 +139,7 @@ var Renderer = function(canvas){
       }
 
       // start listening
-      $(canvas).mousedown(handler.clicked);
-
+      $(canvas).mousedown(handler.mousedown);
     },
 
   }
