@@ -6,12 +6,12 @@
 
       %h1
         Words related to
-        %span.word{:'data-word-id' => @word.id}
+        %span.word{:'data-word-id' => @word.id, :'data-word-url' => word_url(@word)}
           = @word
 
       %ul
         - @word.related_words.each do |w|
-          %li{:'data-word-id' => w.id}
+          %li{:'data-word-id' => w.id, :'data-word-url' => word_url(w)}
             = link_to w, word_path(w)
 
 = link_to 'Edit', edit_word_path(@word)

@@ -162,13 +162,15 @@ $(document).ready(function(){
   var wordId = $('.word-graph h1 .word').data('word-id');
   sys.addNode(wordId, {
     text: $('.word-graph h1 .word').text().trim(),
-    level: 1
+    level: 1,
+    url: $('.word-graph h1 .word').data('word-url')
   });
   $('.word-graph li').each(function(i) {
     var relatedWordId = $(this).data('word-id');
     sys.addNode(relatedWordId, {
       text: $(this).text().trim(),
-      level: 2
+      level: 2,
+      url: $(this).data('word-url')
     });
     sys.addEdge(wordId, relatedWordId);
   });
