@@ -3,7 +3,7 @@ var Renderer = function(canvas){
     // Ratio of text size to canvas size, per node level
     textSizeCanvasRatio: {
       1: 0.25,
-      2: 0.125
+      2: 0.10
     },
     // The ratio of the padding to the canvas size
     paddingRatio: 0.1,
@@ -41,7 +41,6 @@ var Renderer = function(canvas){
         for (i in styles.textSizeCanvasRatio) {
           styles.font[i] = {}
           styles.font[i].size = $(canvas).height() * styles.textSizeCanvasRatio[i];
-          styles.font[i].lineHeight = styles.font[i].size * 1.5;
         }
 
         that.redraw();
@@ -84,8 +83,7 @@ var Renderer = function(canvas){
         // node: {mass:#, p:{x,y}, name:"", data:{}}
         // pt:   {x:#, y:#}  node position in screen coords
         var fontSize = styles.font[node.data.level].size;
-        var lineHeight = styles.font[node.data.level].lineHeight;
-        ctx.font = fontSize + 'px/' + lineHeight + 'px Cardo, serif';
+        ctx.font = fontSize + 'px Cardo, serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillStyle = 'black';
