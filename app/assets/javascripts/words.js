@@ -31,11 +31,15 @@ var Renderer = function(canvas){
       // Thanks to http://ameijer.nl/2011/08/resizable-html5-canvas/ for the
       // responsive canvas
       function respondCanvas() {
+        var pixelRatio = window.devicePixelRatio ? window.devicePixelRatio : 1;
+        var canvasWidth = $(canvas).parent()[0].offsetWidth * pixelRatio;
+        var canvasHeight = $(canvas).parent()[0].offsetHeight * pixelRatio;
+
         // Set canvas size
-        $(canvas).attr('width', $(canvas).parent()[0].offsetWidth);
-        $(canvas).attr('height', $(canvas).parent()[0].offsetHeight);
-        particleSystem.screenSize($(canvas).width(), $(canvas).height());
-        particleSystem.screenPadding($(canvas).height() * styles.paddingRatio, $(canvas).width() * styles.paddingRatio);
+        $(canvas).attr('width', canvasWidth);
+        $(canvas).attr('height', canvasHeight);
+        particleSystem.screenSize(canvasWidth, canvasHeight);
+        particleSystem.screenPadding(canvasWidth * styles.paddingRatio, canvasHeight * styles.paddingRatio);
 
         // Set font style caches here, instead of in redraw() (for performance).
         for (i in styles.textSizeCanvasRatio) {
@@ -101,7 +105,7 @@ var Renderer = function(canvas){
       var handler = {
         clicked:function(e){
           var pos = $(canvas).offset();
-          _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
+          _mouseP = arbor.Point((e.pageX/2)-pos.left, (e.pageY/2)-pos.top)
           dragged = particleSystem.nearest(_mouseP);
 
           if (dragged && dragged.node !== null){
@@ -116,7 +120,7 @@ var Renderer = function(canvas){
         },
         dragged:function(e){
           var pos = $(canvas).offset();
-          var s = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
+          var s = arbor.Point((e.pageX*2)-pos.left, (e.pageY*2)-pos.top)
 
           if (dragged && dragged.node !== null){
             var p = particleSystem.fromScreen(s)
