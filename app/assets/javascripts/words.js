@@ -175,4 +175,12 @@ $(document).ready(function(){
     });
     sys.addEdge(wordId, relatedWordId);
   });
+
+  // Button to add a word
+  sys.addNode('add', {
+    text: '+',
+    level: 2,
+    url: $('.word-graph h1 .word').data('word-url') + '/related_words/new'
+  });
+  sys.addEdge(wordId, 'add');
 })
