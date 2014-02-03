@@ -94,7 +94,7 @@ var Renderer = function(canvas){
 
     initMouseHandling:function(){
       // no-nonsense drag and drop (thanks springy.js)
-      var dragged = null;
+      var nodeWrapper = null;
 
       // set up a handler object that will initially listen for mousedowns then
       // for moves and mouseups while dragging
@@ -102,39 +102,47 @@ var Renderer = function(canvas){
         mousedown:function(e){
           var pos = $(canvas).offset();
           _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
-          dragged = particleSystem.nearest(_mouseP);
+          nodeWrapper = particleSystem.nearest(_mouseP);
 
-          if (dragged && dragged.node !== null){
+          if (nodeWrapper && nodeWrapper.node !== null){
             // while we're dragging, don't let physics move the node
-            dragged.node.fixed = true
+            nodeWrapper.node.fixed = true
+            nodeWrapper.wasDragged = false
           }
 
-          $(canvas).bind('mousemove', handler.dragged)
-          $(window).bind('mouseup', handler.dropped)
+          $(canvas).bind('mousemove', handler.mousemove)
+          $(window).bind('mouseup', handler.mouseup)
 
           return false
         },
-        dragged:function(e){
+        mousemove: function(e){
           var pos = $(canvas).offset();
-          var s = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
+          var s = arbor.Point(e.pageX-pos.left, e.pageY-pos.top);
 
-          if (dragged && dragged.node !== null){
-            var p = particleSystem.fromScreen(s)
-            dragged.node.p = p
+          if (nodeWrapper && nodeWrapper.node !== null){
+            var p = particleSystem.fromScreen(s);
+            nodeWrapper.node.p = p;
+            nodeWrapper.wasDragged = true;
           }
 
           return false
         },
 
-        dropped:function(e){
-          if (dragged===null || dragged.node===undefined) return
-          if (dragged.node !== null) dragged.node.fixed = false
-          dragged.node.tempMass = 1000
-          dragged = null
-          $(canvas).unbind('mousemove', handler.dragged)
-          $(window).unbind('mouseup', handler.dropped)
-          _mouseP = null
-          return false
+        mouseup: function(e){
+          if (nodeWrapper===null || nodeWrapper.node===undefined) return;
+          if (nodeWrapper.node !== null) nodeWrapper.node.fixed = false;
+          nodeWrapper.node.tempMass = 1000;
+          $(canvas).unbind('mousemove', handler.mousemove);
+          $(window).unbind('mouseup', handler.mouseup);
+          _mouseP = null;
+
+          // If this was a click event...
+          if (!nodeWrapper.wasDragged) {
+            console.log('click!');
+          }
+
+          nodeWrapper = null;
+          return false;
         }
       }
 
