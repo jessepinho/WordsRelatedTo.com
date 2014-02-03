@@ -152,13 +152,13 @@ $(document).ready(function(){
   sys.parameters({gravity:true});
   sys.renderer = Renderer(".word-graph");
 
-  var wordId = $('.word-graph h1 .word').attr('id');
+  var wordId = $('.word-graph h1 .word').data('word-id');
   sys.addNode(wordId, {
     text: $('.word-graph h1 .word').text(),
     level: 1
   });
   $('.word-graph li').each(function(i) {
-    var relatedWordId = $(this).attr('id');
+    var relatedWordId = $(this).data('word-id');
     sys.addNode(relatedWordId, {
       text: $(this).text(),
       level: 2
