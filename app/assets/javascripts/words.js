@@ -154,13 +154,13 @@ $(document).ready(function(){
 
   var wordId = $('.word-graph h1 .word').data('word-id');
   sys.addNode(wordId, {
-    text: $('.word-graph h1 .word').text(),
+    text: $('.word-graph h1 .word').text().trim(),
     level: 1
   });
   $('.word-graph li').each(function(i) {
     var relatedWordId = $(this).data('word-id');
     sys.addNode(relatedWordId, {
-      text: $(this).text(),
+      text: $(this).text().trim(),
       level: 2
     });
     sys.addEdge(wordId, relatedWordId);
