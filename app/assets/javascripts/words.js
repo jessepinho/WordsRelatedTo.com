@@ -138,7 +138,7 @@ var Renderer = function(canvas){
 
           // If this was a click event...
           if (!nodeWrapper.wasDragged) {
-            console.log('click!');
+            window.location.href = nodeWrapper.node.data.url;
           }
 
           nodeWrapper = null;
