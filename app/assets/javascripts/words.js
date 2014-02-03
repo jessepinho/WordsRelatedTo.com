@@ -87,6 +87,7 @@ var Renderer = function(canvas){
         var lineHeight = styles.font[node.data.level].lineHeight;
         ctx.font = fontSize + 'px/' + lineHeight + 'px Cardo, serif';
         ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
         ctx.fillStyle = 'black';
         ctx.fillText(node.data.text, pt.x, pt.y);
       })
