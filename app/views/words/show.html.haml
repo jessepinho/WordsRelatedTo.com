@@ -13,6 +13,8 @@
                                        :'data-word-id' => w.id,
                                        :'data-word-url' => word_url(w) }
 
+    = link_to '+', new_related_word_path(@word), { class: 'word add', :'data-word-id' => 'add' }
+
 = link_to 'Edit', edit_word_path(@word)
 = link_to 'Back', words_path
 %p#notice= notice

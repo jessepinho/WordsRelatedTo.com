@@ -123,23 +123,13 @@ $(document).ready(function(){
   sys.addNode(wordId, {
     element: $('.word-graph h1 .word')
   });
-  $('.word-graph li .word').each(function(i) {
+  $('.word-graph .word:not([data-word-id=' + wordId + '])').each(function(i) {
     var relatedWordId = $(this).data('word-id');
     sys.addNode(relatedWordId, {
       element: $(this)
     });
     sys.addEdge(wordId, relatedWordId);
   });
-
-  // Button to add a word
-  /*
-  sys.addNode('add', {
-    text: '+',
-    level: 2,
-    url: $('.word-graph h1 .word').data('word-url') + '/related_words/new'
-  });
-  sys.addEdge(wordId, 'add');
-  */
 
   window.arborParticleSystem = sys;
 })
