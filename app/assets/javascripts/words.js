@@ -71,6 +71,7 @@ var Renderer = function(canvas){
           _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
           nodeWrapper = particleSystem.nearest(_mouseP);
 
+          nodeWrapper.wasDragged = false
           if (nodeWrapper && nodeWrapper.node !== null){
             // while we're dragging, don't let physics move the node
             nodeWrapper.node.fixed = true
@@ -88,6 +89,7 @@ var Renderer = function(canvas){
           if (nodeWrapper && nodeWrapper.node !== null){
             var p = particleSystem.fromScreen(s);
             nodeWrapper.node.p = p;
+            nodeWrapper.wasDragged = true
           }
 
           return false
@@ -101,13 +103,20 @@ var Renderer = function(canvas){
           $(window).unbind('mouseup', handler.mouseup);
           _mouseP = null;
 
-          nodeWrapper = null;
           return false;
+        },
+
+        click: function(e) {
+          if (nodeWrapper.wasDragged) {
+            e.preventDefault();
+          }
+          nodeWrapper = null;
         }
       }
 
       // start listening
       $(canvas).mousedown(handler.mousedown);
+      $(canvas).click(handler.click);
     },
 
   }
