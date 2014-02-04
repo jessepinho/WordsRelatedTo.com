@@ -1,17 +1,4 @@
 var Renderer = function(canvas){
-  var styles = {
-    // Ratio of text size to canvas size, per node level
-    textSizeCanvasRatio: {
-      1: 0.25,
-      2: 0.10
-    },
-    // The ratio of the padding to the canvas size
-    paddingRatio: 0.1,
-    // Cache what styles we can here, so it's not being recalculated on redraw.
-    // (These will be set by respondCanvas() below.)
-    font: {}
-  };
-
   var particleSystem;
 
   var that = {
@@ -35,13 +22,7 @@ var Renderer = function(canvas){
           height: $(canvas).parent()[0].offsetHeight
         });
         particleSystem.screenSize($(canvas).width(), $(canvas).height());
-        particleSystem.screenPadding($(canvas).height() * styles.paddingRatio, $(canvas).width() * styles.paddingRatio);
-
-        // Set font style caches here, instead of in redraw() (for performance).
-        for (i in styles.textSizeCanvasRatio) {
-          styles.font[i] = {}
-          styles.font[i].size = $(canvas).height() * styles.textSizeCanvasRatio[i];
-        }
+        particleSystem.screenPadding($(canvas).height() * 0.1, $(canvas).width() * 0.1);
 
         that.redraw();
       }
@@ -65,35 +46,15 @@ var Renderer = function(canvas){
         // edge: {source:Node, target:Node, length:#, data:{}}
         // pt1:  {x:#, y:#}  source position in screen coords
         // pt2:  {x:#, y:#}  target position in screen coords
-
-        // draw a line from pt1 to pt2
-        /*
-        ctx.strokeStyle = "rgba(0,0,0, .333)"
-        ctx.fillStyle = "white"
-        ctx.lineWidth = 1
-        ctx.beginPath()
-        ctx.moveTo(pt1.x, pt1.y)
-        ctx.lineTo(pt2.x, pt2.y)
-        ctx.stroke()
-        ctx.closePath()
-        */
       })
 
       particleSystem.eachNode(function(node, pt){
         // node: {mass:#, p:{x,y}, name:"", data:{}}
         // pt:   {x:#, y:#}  node position in screen coords
-        /*
-        var fontSize = styles.font[node.data.level].size;
-        ctx.font = fontSize + 'px Cardo, serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillStyle = 'black';
-        ctx.fillText(node.data.text, pt.x, pt.y);
-        */
         var w = node.data.element[0].offsetWidth;
         var h = node.data.element[0].offsetHeight;
         node.data.element.css({
-          transform: 'translate(' + (pt.x - w/2) + 'px,' + (pt.y - h) + 'px' + ')'
+          transform: 'translate(' + (pt.x - w/2) + 'px,' + (pt.y - h/2) + 'px' + ')'
         });
       })
     },
@@ -160,13 +121,11 @@ $(document).ready(function(){
 
   var wordId = $('.word-graph h1 .word').data('word-id');
   sys.addNode(wordId, {
-    level: 1,
     element: $('.word-graph h1 .word')
   });
   $('.word-graph li .word').each(function(i) {
     var relatedWordId = $(this).data('word-id');
     sys.addNode(relatedWordId, {
-      level: 2,
       element: $(this)
     });
     sys.addEdge(wordId, relatedWordId);
