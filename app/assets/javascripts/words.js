@@ -12,8 +12,6 @@ var Renderer = function(canvas){
     font: {}
   };
 
-  var canvas = $(canvas).get(0);
-  var ctx = canvas.getContext("2d");
   var particleSystem;
 
   var that = {
@@ -32,8 +30,10 @@ var Renderer = function(canvas){
       // responsive canvas
       function respondCanvas() {
         // Set canvas size
-        $(canvas).attr('width', $(canvas).parent()[0].offsetWidth);
-        $(canvas).attr('height', $(canvas).parent()[0].offsetHeight);
+        $(canvas).css({
+          width: $(canvas).parent()[0].offsetWidth,
+          height: $(canvas).parent()[0].offsetHeight
+        });
         particleSystem.screenSize($(canvas).width(), $(canvas).height());
         particleSystem.screenPadding($(canvas).height() * styles.paddingRatio, $(canvas).width() * styles.paddingRatio);
 
@@ -61,14 +61,13 @@ var Renderer = function(canvas){
       // convenience iterators .eachNode (and .eachEdge) which allow you to step
       // through the actual node objects but also pass an x,y point in the
       // screen's coordinate system
-      ctx.clearRect(0,0, canvas.width, canvas.height)
-
       particleSystem.eachEdge(function(edge, pt1, pt2){
         // edge: {source:Node, target:Node, length:#, data:{}}
         // pt1:  {x:#, y:#}  source position in screen coords
         // pt2:  {x:#, y:#}  target position in screen coords
 
         // draw a line from pt1 to pt2
+        /*
         ctx.strokeStyle = "rgba(0,0,0, .333)"
         ctx.fillStyle = "white"
         ctx.lineWidth = 1
@@ -77,17 +76,25 @@ var Renderer = function(canvas){
         ctx.lineTo(pt2.x, pt2.y)
         ctx.stroke()
         ctx.closePath()
+        */
       })
 
       particleSystem.eachNode(function(node, pt){
         // node: {mass:#, p:{x,y}, name:"", data:{}}
         // pt:   {x:#, y:#}  node position in screen coords
+        /*
         var fontSize = styles.font[node.data.level].size;
         ctx.font = fontSize + 'px Cardo, serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillStyle = 'black';
         ctx.fillText(node.data.text, pt.x, pt.y);
+        */
+        var w = node.data.element[0].offsetWidth;
+        var h = node.data.element[0].offsetHeight;
+        node.data.element.css({
+          transform: 'translate(' + (pt.x - w/2) + 'px,' + (pt.y - h) + 'px' + ')'
+        });
       })
     },
 
@@ -106,7 +113,6 @@ var Renderer = function(canvas){
           if (nodeWrapper && nodeWrapper.node !== null){
             // while we're dragging, don't let physics move the node
             nodeWrapper.node.fixed = true
-            nodeWrapper.wasDragged = false
           }
 
           $(canvas).bind('mousemove', handler.mousemove)
@@ -121,7 +127,6 @@ var Renderer = function(canvas){
           if (nodeWrapper && nodeWrapper.node !== null){
             var p = particleSystem.fromScreen(s);
             nodeWrapper.node.p = p;
-            nodeWrapper.wasDragged = true;
           }
 
           return false
@@ -134,11 +139,6 @@ var Renderer = function(canvas){
           $(canvas).unbind('mousemove', handler.mousemove);
           $(window).unbind('mouseup', handler.mouseup);
           _mouseP = null;
-
-          // If this was a click event...
-          if (!nodeWrapper.wasDragged) {
-            window.location.href = nodeWrapper.node.data.url;
-          }
 
           nodeWrapper = null;
           return false;
@@ -160,27 +160,27 @@ $(document).ready(function(){
 
   var wordId = $('.word-graph h1 .word').data('word-id');
   sys.addNode(wordId, {
-    text: $('.word-graph h1 .word').text().trim(),
     level: 1,
-    url: $('.word-graph h1 .word').data('word-url')
+    element: $('.word-graph h1 .word')
   });
-  $('.word-graph li').each(function(i) {
+  $('.word-graph li .word').each(function(i) {
     var relatedWordId = $(this).data('word-id');
     sys.addNode(relatedWordId, {
-      text: $(this).text().trim(),
       level: 2,
-      url: $(this).data('word-url')
+      element: $(this)
     });
     sys.addEdge(wordId, relatedWordId);
   });
 
   // Button to add a word
+  /*
   sys.addNode('add', {
     text: '+',
     level: 2,
     url: $('.word-graph h1 .word').data('word-url') + '/related_words/new'
   });
   sys.addEdge(wordId, 'add');
+  */
 
   window.arborParticleSystem = sys;
 })
