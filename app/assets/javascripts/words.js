@@ -141,4 +141,8 @@ $(document).ready(function(){
   });
 
   window.arborParticleSystem = sys;
+
+  $('.word.add').click(function (e) {
+    $('input[type="text"]', this).focus();
+  });
 })

@@ -8,12 +8,15 @@
 
     %ul
       - @word.related_words.each do |w|
-        %li
-          = link_to w, word_path(w), { class: 'word',
-                                       :'data-word-id' => w.id,
-                                       :'data-word-url' => word_url(w) }
+        %li{ class: 'word',
+             :'data-word-id' => w.id,
+             :'data-word-url' => word_url(w) }
+          = link_to w, word_path(w)
 
-    = link_to '+', new_related_word_path(@word), { class: 'word add', :'data-word-id' => 'add' }
+    .word.add{ :'data-word-id' => 'add' }
+      = form_tag related_words_path @word do
+        = text_field_tag :word
+        = submit_tag '+'
 
 = link_to 'Edit', edit_word_path(@word)
 = link_to 'Back', words_path

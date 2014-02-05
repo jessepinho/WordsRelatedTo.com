@@ -17,6 +17,14 @@ article.word
     position: absolute
     text-align: center
     text-decoration: none
+    a
+      color: #999
+      text-decoration: none
     &.add
-      font-size: 5em
-      line-height: inherit
+      z-index: 1
+      input
+        border-bottom: 1px dashed #999
+        display: inline-block
+        max-width: 300px
+        &[type='submit']
+          border: none
