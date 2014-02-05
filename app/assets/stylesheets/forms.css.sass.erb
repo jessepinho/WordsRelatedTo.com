@@ -1,0 +1,95 @@
+@import compass/css3
+
+button,
+.button,
+label,
+input,
+select
+  cursor: pointer
+
+button,
+.button,
+input,
+select,
+textarea
+  +appearance(none)
+  background: transparent
+  border: none
+  border-radius: 0
+  +box-sizing(border-box)
+  color: inherit
+  font-family: inherit
+  font-size: inherit
+
+button,
+.button,
+input:not([type='checkbox']):not([type='radio']),
+select,
+textarea
+  display: block
+
+button[disabled],
+input[disabled],
+select[disabled],
+textarea[disabled]
+  cursor: default
+  +opacity(0.5)
+
+button,
+.button,
+input[type='button'],
+input[type='reset'],
+input[type='submit']
+  &[data-activity-indicator]
+    background-image: url(<%= asset_path('throbber.gif') %>)
+    background-position: 100% 38px
+    background-repeat: no-repeat
+    background-size: 21px 21px
+
+.button
+  vertical-align: middle
+
+input[type='checkbox'],
+input[type='radio']
+  height: 30px
+  width: 30px
+
+input:checked[type='checkbox'],
+input:checked[type='radio']
+  background-image: url(<%= asset_path 'check.png' %>)
+  background-position: center center
+  background-repeat: no-repeat
+  background-size: 20px 20px
+
+input:checked[type='radio']
+  background-image: url(<%= asset_path 'radio.png' %>)
+
+input[type='password'],
+input[type='text']
+  cursor: text
+
+select
+  background-image: url(<%= asset_path 'select-arrow.png' %>)
+  background-position: right center
+  background-repeat: no-repeat
+  background-size: 21px 9px
+  padding-right: 26px
+
+select[multiple]
+  background-image: none
+  height: 15em
+
+textarea
+  height: auto
+  line-height: 1.5em
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5)
+
+  input:checked[type='checkbox']
+    background-image: url(<%= asset_path 'check@2x.png' %>)
+
+  input:checked[type='radio']
+    background-image: url(<%= asset_path 'radio@2x.png' %>)
+
+  select
+    background-image: url(<%= asset_path 'select-arrow@2x.png' %>)
