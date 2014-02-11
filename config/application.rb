@@ -28,5 +28,7 @@ module WordsRelatedTo
       g.test_framework :rspec
     end
 
+    # Use the vendor directory for assets
+    config.assets.paths << 'vendor/assets/javascripts'
   end
 end
