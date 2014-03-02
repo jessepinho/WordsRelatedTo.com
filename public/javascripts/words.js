@@ -123,7 +123,7 @@ var Renderer = function(canvas){
   return that
 }
 
-$(document).ready(function(){
+function initWordGraph() {
   if ($('.word-graph').length) {
     var sys = arbor.ParticleSystem(1000, 600, 0.5);
     sys.parameters({gravity:true});
@@ -147,4 +147,4 @@ $(document).ready(function(){
       $('input[type="text"]', this).focus();
     });
   }
-})
+}
