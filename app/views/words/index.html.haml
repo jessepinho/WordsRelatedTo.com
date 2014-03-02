@@ -1,3 +1,21 @@
 %div{ :'ng-view' => '' }
+
+%script{ type: 'text/ng-template', id: 'search.html' }
+  %input{ type: 'text', :'data-ng-model' => 'wordFilter.word' }
+  .word{ :'data-ng-repeat' => 'word in allWords | filter:wordFilter ' }
+    <a href="/#/{{ word.id }}">{{ word.word }}</a>
+
 %script{ type: 'text/ng-template', id: 'word.html' }
-  {{ word }}
+  %article.word
+    .word-graph
+
+      %h1
+        %span.word{ :'data-word-id' => '{{ word.id }}', :'data-word-url' => '{{ word.url }}' }
+          {{ word.word }}
+
+      %ul
+        %li{ class: 'word',
+             :'data-word-id' => '{{ related_word.id }}',
+             :'data-word-url' => '{{ related_word.url }}',
+             :'data-ng-repeat' => 'related_word in word.related_words' }
+          <a href="/#/{{ related_word.id }}">{{ related_word.word }}</a>
