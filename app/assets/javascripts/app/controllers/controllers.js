@@ -1,4 +1,7 @@
-wrt.controller('WordsController', ['$scope', function($scope) {
+var wrtControllers = angular.module('wrtControllers', []);
 
-  $scope.word = 'Hello world!';
-}]);
+wrtControllers.controller('WordSearchController', ['$scope', 'Word',
+  function($scope, Word) {
+    $scope.allWords = Word.query();
+    $scope.word = 'Hello world!';
+  }]);
