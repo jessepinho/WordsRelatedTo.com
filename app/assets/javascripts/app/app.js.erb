@@ -1,0 +1,13 @@
+wrt = angular.module('WordsRelatedTo', [
+  'ngRoute',
+  'ngResource'
+]);
+
+wrt.config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.
+      when('/', {
+        templateUrl: 'word.html',
+        controller: 'WordsController'
+      });
+  }]);
