@@ -8,5 +8,8 @@ wrtControllers.controller('WordSearchController', ['$scope', 'Word',
 
 wrtControllers.controller('WordController', ['$scope', 'Word', '$routeParams',
   function($scope, Word, $routeParams) {
+    $scope.$on('$routeChangeSuccess', function() {
+      initWordGraph();
+    });
     $scope.word = Word.get({wordId: $routeParams.wordId});
   }]);
