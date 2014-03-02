@@ -10,12 +10,11 @@
     .word-graph
 
       %h1
-        %span.word{ :'data-word-id' => '{{ word.id }}', :'data-word-url' => '{{ word.url }}' }
+        %span.word{ :'data-word-id' => '{{ word.id }}' }
           {{ word.word }}
 
       %ul
         %li{ class: 'word',
              :'data-word-id' => '{{ related_word.id }}',
-             :'data-word-url' => '{{ related_word.url }}',
              :'data-ng-repeat' => 'related_word in word.related_words' }
           <a href="/#/{{ related_word.id }}">{{ related_word.word }}</a>
