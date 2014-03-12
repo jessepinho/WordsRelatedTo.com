@@ -51,6 +51,10 @@ var Renderer = function(canvas){
       particleSystem.eachNode(function(node, pt){
         // node: {mass:#, p:{x,y}, name:"", data:{}}
         // pt:   {x:#, y:#}  node position in screen coords
+        var element;
+        if (!node.data.element) {
+          node.data.element = $('[data-word-id="' + node.name + '"]');
+        }
         var w = node.data.element[0].offsetWidth;
         var h = node.data.element[0].offsetHeight;
         node.data.element.css({
