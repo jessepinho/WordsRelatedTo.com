@@ -9,7 +9,6 @@ wrtDirectives.directive('wrtWordGraph',
         var sys = arbor.ParticleSystem(1000, 600, 0.5);
         sys.parameters({gravity:true});
         sys.renderer = Renderer(".word-graph");
-        window.arborParticleSystem = sys;
 
         // React to the word changing
         scope.$watch('word.id', function(new_word, old_word) {
