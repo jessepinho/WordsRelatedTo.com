@@ -122,29 +122,3 @@ var Renderer = function(canvas){
   }
   return that
 }
-
-function initWordGraph() {
-  if ($('.word-graph').length) {
-    var sys = arbor.ParticleSystem(1000, 600, 0.5);
-    sys.parameters({gravity:true});
-    sys.renderer = Renderer(".word-graph");
-
-    var wordId = $('.word-graph h1 .word').data('word-id');
-    sys.addNode(wordId, {
-      element: $('.word-graph h1 .word')
-    });
-    $('.word-graph .word:not([data-word-id=' + wordId + '])').each(function(i) {
-      var relatedWordId = $(this).data('word-id');
-      sys.addNode(relatedWordId, {
-        element: $(this)
-      });
-      sys.addEdge(wordId, relatedWordId);
-    });
-
-    window.arborParticleSystem = sys;
-
-    $('.word.add').click(function (e) {
-      $('input[type="text"]', this).focus();
-    });
-  }
-}
