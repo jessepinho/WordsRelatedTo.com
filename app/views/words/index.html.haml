@@ -6,11 +6,15 @@
     <a href="/#/{{ word.id }}">{{ word.word }}</a>
 
 %script{ type: 'text/ng-template', id: 'word.html' }
+  %div{ :'data-wrt-word-graph' => '' }
+
+%script{ type: 'text/ng-template', id: 'word-graph.html' }
   %article.word
     .word-graph
 
       %h1
-        %span.word{ :'data-word-id' => '{{ word.id }}' }
+        %span.word{ :'data-word-id' => '{{ word.id }}',
+                    :'data-ng-controller' => 'WordController' }
           {{ word.word }}
 
       %ul
