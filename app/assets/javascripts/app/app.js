@@ -1,7 +1,8 @@
 wrt = angular.module('WordsRelatedTo', [
   'ngRoute',
   'wrtControllers',
-  'wrtServices'
+  'wrtServices',
+  'wrtDirectives'
 ]);
 
 wrt.config(['$routeProvider',
